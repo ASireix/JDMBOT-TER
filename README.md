@@ -1,41 +1,17 @@
-# C# Discord Bot Template (.NET 7.0)
+# 🤖 Bot Discord de gestion de connaissances
 
-![image](https://imgur.com/orKLJEx.png)
+Projet développé dans le cadre du **TER M1 - 2025**, ce bot Discord a pour objectif d'engager des conversations les utilisateurs afin d'enrichir la base de connaissances **RezoJDM** (*Réseau Jeux De Mots*).  
 
-## ***THIS IS THE NET 7.0 VERSION OF THE ORIGINAL TEMPLATE REPOSITORY***
+## Exemple de dialogue  
+```plaintext
+Bot : Est-ce qu'un hot-dog contient de la moutarde ?  
+User : Oui, la plupart du temps.  
+Bot : Merci pour ces informations !  
+User : Un hot-dog, c'est de la malbouffe.  
+Bot : Ah, ok, je vais retenir cela.  
+```
 
-# :wave: Welcome
-- This is the NET 7 version of the original [Template Repository](https://github.com/samjesus8/CSharp-Discord-Bot-Template). This should allow you to create a Discord Bot whilst utilising the benefits of NET Core 7.
+## Liens utiles  
+- [RezoJDM : Description générale](http://www.jeuxdemots.org/jdm-about.php)  
+- [API](https://jdm-api.demo.lirmm.fr/)  
 
-- This repository acts as a template for people wanting to create their own Discord Bot using C# along with the DSharpPlus library
-
-- This template was created by SamJesus8, who has a Tutorial on how to make a 100% functioning Discord Bot
-in C#, with many of the different features it can offer. Please watch this tutorial to understand more about what you can do.
-
-- Watch the Series here -> [C# Discord Bot Tutorial](https://www.youtube.com/playlist?list=PLcpUxmcrEm_A819eppTt09S6EGVH99TSV)
-
-<p align="center">
-    <img src="https://imgur.com/OmdLEsh.png" style="border:5px solid black" />
-</p>
-
-# :speaking_head: Beginner's Advice from the Author
-
-- The whole reason for this repository is just to give beginners a working foundation that they can start working on.
-- This repository will only contain the basic features for you to get started coding the Bot.
-- This is because it is the user's responsibility to learn everything they need to know about DSharpPlus.
-
-***"As programmers, do not expect the answers to just be handed to you on a plate. You are expected to research and study for yourself
-things that you may not understand/don't know about the Bot" - Sam J***
-
-# :hammer_and_wrench: Setup
-
-- To use this repository correctly, please refer to the below article to get it setup and working
-
-[Repository Setup](https://github.com/samjesus8/CSharp-Discord-Bot-Template-NET7.0/blob/master/Docs/repository_setup.md)
-
-# :warning: Help & Support
-
-If you need extra help with this Bot then here are some recommended support links:
-
-- **Join my Discord Server** | [samjesus8 Official Server](https://discord.com/invite/GrcaGNSfCR)
-- **Join the Official DSharpPlus Server** | [DSharpPlus Official Server](https://discord.com/invite/dsharpplus)
