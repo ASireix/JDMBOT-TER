@@ -1,12 +1,12 @@
-﻿using DiscordBotTemplateNet7.Commands;
-using DiscordBotTemplateNet7.Config;
+﻿using BotJDM.Commands;
+using BotJDM.Config;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 
-namespace DiscordBotTemplateNet7
+namespace BotJDM
 {
     public sealed class Program
     {

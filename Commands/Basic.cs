@@ -1,7 +1,7 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 
-namespace DiscordBotTemplateNet7.Commands
+namespace BotJDM.Commands
 {
     public class Basic : BaseCommandModule
     {

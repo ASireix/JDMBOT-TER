@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DiscordBotTemplateNet7.Config
+namespace BotJDM.Config
 {
     internal class BotConfig
     {
