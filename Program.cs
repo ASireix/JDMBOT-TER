@@ -1,5 +1,6 @@
 ﻿using BotJDM.Commands;
 using BotJDM.Config;
+using BotJDM.SlashCommands;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
@@ -43,6 +44,13 @@ namespace BotJDM
                 EnableDefaultHelp = false
             };
             var slashCommandsConfig = Client.UseSlashCommands();
+
+            try
+            {
+                slashCommandsConfig.RegisterCommands<SlashCommandsAPI>();
+            }
+            catch (Exception ex) { }
+            
 
             Commands = Client.UseCommandsNext(commandsConfig);
 
