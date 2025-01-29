@@ -5,6 +5,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.SlashCommands;
 
 namespace BotJDM
 {
@@ -41,6 +42,7 @@ namespace BotJDM
                 EnableDms = true,
                 EnableDefaultHelp = false
             };
+            var slashCommandsConfig = Client.UseSlashCommands();
 
             Commands = Client.UseCommandsNext(commandsConfig);
 
