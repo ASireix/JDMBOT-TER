@@ -38,12 +38,12 @@ public class SlashCommandsBasicConv : ApplicationCommandModule
         await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(embed));
     }
     
-    [SlashCommand("provide-relation", "Make bot more intelligent")]
-    public async Task Provide(InteractionContext ctx, [Option("object1","Objet 1")] string object1,
-        [Option("object2","Objet 2")] string object2)
-    {
-        await ctx.DeferAsync();
-    }
+    // [SlashCommand("provide-relation", "Make bot more intelligent")]
+    // public async Task Provide(InteractionContext ctx, [Option("object1","Objet 1")] string object1,
+    //     [Option("object2","Objet 2")] string object2)
+    // {
+    //     await ctx.DeferAsync();
+    // }
     
     [SlashCommand("test-user", "Return a question to answer")]
     public async Task TestUser(InteractionContext ctx)
