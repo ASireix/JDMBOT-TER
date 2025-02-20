@@ -240,7 +240,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
             StringBuilder sb = new StringBuilder();
             foreach (var item in relationTypes)
             {
-                sb.AppendLine(item.name);
+                sb.AppendLine("id = "+item.id+", "+item.name);
             }
             embed.Title = "List of relations types";
             embed.Description = sb.ToString();

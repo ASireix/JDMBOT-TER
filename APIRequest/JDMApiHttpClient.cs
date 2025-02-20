@@ -12,6 +12,22 @@ public class JDMApiHttpClient
         BaseAddress = new Uri("https://jdm-api.demo.lirmm.fr/v0/")
     };
 
+    /// <summary>
+    /// Return -1 if relation could not be found
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public static async Task<int> GetRelationIdFromName(string name)
+    {
+        var rel = await GetRelationTypes();
+        if (rel is null) return -1;
+        foreach (var relation in rel)
+        {
+            if (relation.name == name) return relation.id;
+        }
+        return -1;
+    }
+
     public static async Task<Node?> GetNodeById(int id)
     {
         using HttpResponseMessage response = await _httpClient.GetAsync($"node_by_id/{id}");
