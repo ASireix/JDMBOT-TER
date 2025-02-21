@@ -5,6 +5,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>BotJDM</AssemblyName>
+    <RootNamespace>BotJDM</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +15,7 @@
     <PackageReference Include="DSharpPlus.Interactivity" Version="4.5.0" />
     <PackageReference Include="DSharpPlus.SlashCommands" Version="4.5.0" />
     <PackageReference Include="MySql.Data" Version="9.2.0" />
+    <PackageReference Include="Stanford.NLP.CoreNLP" Version="4.5.0" />
     <PackageReference Include="System.Net.Security" Version="4.3.2" />
   </ItemGroup>
 
