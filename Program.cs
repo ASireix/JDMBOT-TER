@@ -1,13 +1,11 @@
-﻿using BotJDM.Commands;
-using BotJDM.Config;
 using DSharpPlus;
-using DSharpPlus.CommandsNext;
-using DSharpPlus.EventArgs;
-using DSharpPlus.Interactivity;
-using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
 using System;
 using System.Threading.Tasks;
+using DSharpPlus.EventArgs;
+using System;
+using System.Threading.Tasks;
+using BotJDM.Config;
 
 namespace BotJDM
 {
@@ -22,6 +20,8 @@ namespace BotJDM
             var botConfig = new BotConfig();
             await botConfig.ReadJSON();
 
+            await MySqlDatabaseHelper.InitializeDatabase();
+
             var config = new DiscordConfiguration()
             {
                 Intents = DiscordIntents.All,
@@ -29,14 +29,16 @@ namespace BotJDM
                 Token = botConfig.Token,
                 TokenType = TokenType.Bot,
                 AutoReconnect = true
+                Intents = DiscordIntents.All,   
+                Token = botConfig.Token,        
+                TokenType = TokenType.Bot,     
             };
 
             Client = new DiscordClient(config);
+            
+            SlashCommands = Client.UseSlashCommands();
 
-            Client.UseInteractivity(new InteractivityConfiguration
-            {
-                Timeout = TimeSpan.FromMinutes(3)
-            });
+            SlashCommands.RegisterCommands<SlashCommandsAPI>();
 
             Client.Ready += OnClientReady;
 
@@ -61,13 +63,21 @@ namespace BotJDM
             Console.WriteLine("============================== \n" +
                               "Les commandes de Rigbot sont utilisables. \n" +
                               "==============================");
+            Console.WriteLine("Commands registered successfully!");
+
+            Console.WriteLine("==============================");
+            Console.WriteLine("NET 7.0 C# Discord Bot");
+            Console.WriteLine("Made by samjesus8");
+            Console.WriteLine("==============================");
 
             await Client.ConnectAsync();
+
             await Task.Delay(-1);
         }
 
         private static Task OnClientReady(DiscordClient sender, ReadyEventArgs args)
         {
+            Console.WriteLine("Bot is now connected and ready!");
             return Task.CompletedTask;
         }
     }
