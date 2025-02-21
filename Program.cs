@@ -1,11 +1,9 @@
 using DSharpPlus;
 using DSharpPlus.SlashCommands;
-using System;
-using System.Threading.Tasks;
 using DSharpPlus.EventArgs;
-using System;
-using System.Threading.Tasks;
+using BotJDM.Commands;
 using BotJDM.Config;
+using DSharpPlus.CommandsNext;
 
 namespace BotJDM
 {
@@ -28,10 +26,7 @@ namespace BotJDM
                 //Intents = DiscordIntents.AllUnprivileged | DiscordIntents.GuildMembers | DiscordIntents.GuildPresences,
                 Token = botConfig.Token,
                 TokenType = TokenType.Bot,
-                AutoReconnect = true
-                Intents = DiscordIntents.All,   
-                Token = botConfig.Token,        
-                TokenType = TokenType.Bot,     
+                AutoReconnect = true   
             };
 
             Client = new DiscordClient(config);
