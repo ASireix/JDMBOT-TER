@@ -94,12 +94,13 @@ public class SlashCommandsBasicConv : ApplicationCommandModule
             bool relationNotExist = response == null || response.relations.Count == 0;
             if ((relationNotExist && answer == "oui") || (!relationNotExist && answer == "non"))
             {
-                await ctx.Channel.SendMessageAsync($"Merci pour votre réponse : {answer}, \n Mais vous avez tort");
+                await ctx.Channel.SendMessageAsync($"Merci pour votre réponse : {answer} \nMais vous avez tort");
             }
             else
             {
-                await ctx.Channel.SendMessageAsync($"Merci pour votre réponse : {answer}, \n Vous êtes un génie");
+                await ctx.Channel.SendMessageAsync($"Merci pour votre réponse : {answer} \nVous êtes un génie");
             }
+            //Utiliser une fonction pour augmenter/diminuer le niveau de confiance de l'utilisateur
         }
     }
 }

@@ -154,7 +154,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
     }
 
     [SlashCommand("get-relations-from-to", "Return all id of relations from node 1 to node 2")]
-    public async Task GetRelationFrom(InteractionContext ctx, [Option("node1", "Node 1 name")] string node1Name,
+    public async Task GetRelationFromTo(InteractionContext ctx, [Option("node1", "Node 1 name")] string node1Name,
         [Option("node2", "Node 2 name")] string node2Name)
     {
         await ctx.DeferAsync();
@@ -175,10 +175,13 @@ public class SlashCommandsAPI : ApplicationCommandModule
             embed.Title = $"Relations from {node1Name} to {node2Name}";
 
             string rep = string.Join(",", relation.relations);
+            List<int> ids = relation.relations.Select(r => r.type).ToList();
+            List<string> relNames = await JDMApiHttpClient.GetRelationNamesFromIds(ids);
+            
             StringBuilder sb = new StringBuilder();
-            foreach (var item in relation.relations)
+            foreach (var item in relNames)
             {
-                sb.AppendLine("" + item.type);
+                sb.AppendLine("nom = " + item);
             }
             embed.Description = sb.ToString();
         }
@@ -207,10 +210,12 @@ public class SlashCommandsAPI : ApplicationCommandModule
             embed.Title = $"Relations to {nodeName}";
 
             string rep = string.Join(",", relation.relations);
+            List<int> ids = relation.relations.Select(r => r.type).ToList();
+            List<string> relNames = await JDMApiHttpClient.GetRelationNamesFromIds(ids);
             StringBuilder sb = new StringBuilder();
-            foreach (var item in relation.relations)
+            foreach (var item in relNames)
             {
-                sb.AppendLine("" + item.type);
+                sb.AppendLine("nom = " + item);
             }
             embed.Description = sb.ToString();
         }
@@ -237,6 +242,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
         else
         {
             string rep = string.Join(",", relationTypes);
+            
             StringBuilder sb = new StringBuilder();
             foreach (var item in relationTypes)
             {
