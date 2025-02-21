@@ -27,6 +27,26 @@ public class JDMApiHttpClient
         }
         return -1;
     }
+    
+    /// <summary>
+    /// Return a list of ids from a list of string
+    /// </summary>
+    /// <param name="ids"></param>
+    /// <returns></returns>
+    public static async Task<List<string>> GetRelationNamesFromIds(List<int> ids)
+    {
+        var rel = await GetRelationTypes();
+        List<string> res = new List<string>();
+        if (rel is null) return res;
+        foreach (var relation in rel)
+        {
+            foreach (var id in ids)
+            {
+                if (relation.id == id) res.Add(relation.name);
+            }
+        }
+        return res;
+    }
 
     public static async Task<Node?> GetNodeById(int id)
     {
