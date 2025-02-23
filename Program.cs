@@ -1,5 +1,6 @@
 using BotJDM.Commands;
 using BotJDM.Config;
+using BotJDM.SlashCommands;
 using BotJDM.SlashCommands.Tests;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
@@ -52,6 +53,7 @@ namespace BotJDM
                 slashCommandsConfig.RegisterCommands<SlashCommandsAPI>();
                 slashCommandsConfig.RegisterCommands<SlashCommandsBasicConv>();
                 slashCommandsConfig.RegisterCommands<SlashConversationCommands>();
+                slashCommandsConfig.RegisterCommands<SlashCommandsMain>();
             }
             catch (Exception ex) { }
             
