@@ -1,6 +1,6 @@
-namespace BotJDM.TrustFactor;
+namespace BotJDM.Utils.TrustFactor;
 
 public static class TrustFactorManager
 {
-    
+
 }

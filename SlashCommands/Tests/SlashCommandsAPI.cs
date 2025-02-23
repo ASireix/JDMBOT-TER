@@ -4,12 +4,12 @@ using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using System.Text;
 
-namespace BotJDM.SlashCommands;
+namespace BotJDM.SlashCommands.Tests;
 
 public class SlashCommandsAPI : ApplicationCommandModule
 {
-    [SlashCommand("get-node-by-id","Return node informations from id")]
-    public async Task GetNodeId(InteractionContext ctx, [Option("id","Node id")] long id)
+    [SlashCommand("get-node-by-id", "Return node informations from id")]
+    public async Task GetNodeId(InteractionContext ctx, [Option("id", "Node id")] long id)
     {
         await ctx.DeferAsync();
 
@@ -145,7 +145,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
             StringBuilder sb = new StringBuilder();
             foreach (var item in relation.relations)
             {
-                sb.AppendLine(""+item.type);
+                sb.AppendLine("" + item.type);
             }
             embed.Description = sb.ToString();
         }
@@ -164,7 +164,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
             Color = DiscordColor.Green
         };
 
-        RelationRet? relation = await JDMApiHttpClient.GetRelationsFromTo(node1Name,node2Name);
+        RelationRet? relation = await JDMApiHttpClient.GetRelationsFromTo(node1Name, node2Name);
         if (relation == null)
         {
             embed.Title = "Relation is null";
@@ -177,7 +177,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
             string rep = string.Join(",", relation.relations);
             List<int> ids = relation.relations.Select(r => r.type).ToList();
             List<string> relNames = await JDMApiHttpClient.GetRelationNamesFromIds(ids);
-            
+
             StringBuilder sb = new StringBuilder();
             foreach (var item in relNames)
             {
@@ -242,11 +242,11 @@ public class SlashCommandsAPI : ApplicationCommandModule
         else
         {
             string rep = string.Join(",", relationTypes);
-            
+
             StringBuilder sb = new StringBuilder();
             foreach (var item in relationTypes)
             {
-                sb.AppendLine("id = "+item.id+", "+item.name);
+                sb.AppendLine("id = " + item.id + ", " + item.name);
             }
             embed.Title = "List of relations types";
             embed.Description = sb.ToString();

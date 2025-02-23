@@ -1,10 +1,6 @@
-using DSharpPlus;
-using DSharpPlus.SlashCommands;
-using DSharpPlus.EventArgs;
 using BotJDM.Commands;
 using BotJDM.Config;
-using BotJDM.SlashCommands;
-using BotJDM.SlashCommands;
+using BotJDM.SlashCommands.Tests;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
@@ -55,6 +51,7 @@ namespace BotJDM
             {
                 slashCommandsConfig.RegisterCommands<SlashCommandsAPI>();
                 slashCommandsConfig.RegisterCommands<SlashCommandsBasicConv>();
+                slashCommandsConfig.RegisterCommands<SlashConversationCommands>();
             }
             catch (Exception ex) { }
             
@@ -64,13 +61,11 @@ namespace BotJDM
             Commands.RegisterCommands<Basic>();
             Commands.RegisterCommands<ConversationCommands>();
 
-            slashCommandsConfig.RegisterCommands<SlashConversationCommands>();
-
             await ConversationCommands.InitializeKnowledgeBase();
             await SlashConversationCommands.InitializeKnowledgeBase();
             
             Console.WriteLine("============================== \n" +
-                              "NET 7.0 C# Discord Bot \n" +
+                              "NET 9.0 C# Discord Bot \n" +
                               "Made by samjesus8 \n" +
                               "==============================");
 
