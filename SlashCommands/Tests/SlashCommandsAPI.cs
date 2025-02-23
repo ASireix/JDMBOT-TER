@@ -2,6 +2,7 @@ using BotJDM.APIRequest;
 using BotJDM.APIRequest.Models;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using DSharpPlus.SlashCommands.Attributes;
 using System.Text;
 
 namespace BotJDM.SlashCommands.Tests;
@@ -9,6 +10,7 @@ namespace BotJDM.SlashCommands.Tests;
 public class SlashCommandsAPI : ApplicationCommandModule
 {
     [SlashCommand("get-node-by-id", "Return node informations from id")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task GetNodeId(InteractionContext ctx, [Option("id", "Node id")] long id)
     {
         await ctx.DeferAsync();
@@ -36,6 +38,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
     }
 
     [SlashCommand("get-node-by-name", "Return node informations from name")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task GetNodeName(InteractionContext ctx, [Option("name", "Node name")] string _name)
     {
         await ctx.DeferAsync();
@@ -63,6 +66,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
     }
 
     [SlashCommand("get-node-refinement", "WIP - Return node refinement")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task GetNodeRefinement(InteractionContext ctx, [Option("name", "Node name")] string _name)
     {
         await ctx.DeferAsync();
@@ -90,6 +94,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
     }
 
     [SlashCommand("get-node-types", "Return all node types")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task GetNodeTypes(InteractionContext ctx)
     {
         await ctx.DeferAsync();
@@ -121,6 +126,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
     }
 
     [SlashCommand("get-relations-from", "Return all id of relations from a node")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task GetRelationFrom(InteractionContext ctx, [Option("name", "Node name")] string nodeName)
     {
         await ctx.DeferAsync();
@@ -154,6 +160,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
     }
 
     [SlashCommand("get-relations-from-to", "Return all id of relations from node 1 to node 2")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task GetRelationFromTo(InteractionContext ctx, [Option("node1", "Node 1 name")] string node1Name,
         [Option("node2", "Node 2 name")] string node2Name)
     {
@@ -190,6 +197,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
     }
 
     [SlashCommand("get-relations-to", "Return all id of relations from node 1 to node 2")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task GetRelationTo(InteractionContext ctx, [Option("node", "Node name")] string nodeName)
     {
         await ctx.DeferAsync();
@@ -224,6 +232,7 @@ public class SlashCommandsAPI : ApplicationCommandModule
     }
 
     [SlashCommand("get-relation-types", "Return all relation types")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task GetRelationTypes(InteractionContext ctx)
     {
         await ctx.DeferAsync();

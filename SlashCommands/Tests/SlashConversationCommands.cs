@@ -1,5 +1,6 @@
 using BotJDM.Utils;
 using DSharpPlus.SlashCommands;
+using DSharpPlus.SlashCommands.Attributes;
 using System.Threading.Tasks;
 
 namespace BotJDM.SlashCommands.Tests
@@ -15,6 +16,7 @@ namespace BotJDM.SlashCommands.Tests
         }
 
         [SlashCommand("ask", "Pose une question au bot")]
+        [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
         public async Task AskCommand(InteractionContext ctx, [Option("question", "La question à poser")] string question)
         {
             if (question.Trim().StartsWith("Pourquoi", StringComparison.OrdinalIgnoreCase))
@@ -29,6 +31,7 @@ namespace BotJDM.SlashCommands.Tests
         }
 
         [SlashCommand("teach", "Enseigne une nouvelle information au bot")]
+        [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
         public async Task TeachCommand(InteractionContext ctx, [Option("question", "La question")] string question, [Option("answer", "La réponse")] string answer)
         {
             knowledgeBase.AddKnowledge(question, answer);
@@ -36,6 +39,7 @@ namespace BotJDM.SlashCommands.Tests
         }
 
         [SlashCommand("why", "Pose une question de type 'Pourquoi' au bot")]
+        [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
         public async Task WhyCommand(InteractionContext ctx, [Option("question", "La question à poser")] string question)
         {
             if (!question.Trim().StartsWith("Pourquoi", StringComparison.OrdinalIgnoreCase))
@@ -57,6 +61,7 @@ namespace BotJDM.SlashCommands.Tests
         }
 
         [SlashCommand("respond", "Répond à la dernière question posée")]
+        [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
         public async Task RespondCommand(InteractionContext ctx, [Option("response", "La réponse à la question")] string response)
         {
             if (!string.IsNullOrEmpty(lastQuestion))

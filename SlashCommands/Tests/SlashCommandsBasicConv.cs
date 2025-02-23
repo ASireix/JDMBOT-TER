@@ -3,12 +3,14 @@ using BotJDM.APIRequest.Models;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
+using DSharpPlus.SlashCommands.Attributes;
 
 namespace BotJDM.SlashCommands.Tests;
 
 public class SlashCommandsBasicConv : ApplicationCommandModule
 {
     [SlashCommand("ask-relation", "Analyse if there is a relation between the objects")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task AskRelation(InteractionContext ctx, [Option("object1", "Objet 1")] string object1,
         [Option("relation", "Nom de la relation ex:r_agent-1")] string relation, [Option("object2", "Objet 2")] string object2)
     {
@@ -38,14 +40,16 @@ public class SlashCommandsBasicConv : ApplicationCommandModule
         await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(embed));
     }
 
-    // [SlashCommand("provide-relation", "Make bot more intelligent")]
-    // public async Task Provide(InteractionContext ctx, [Option("object1","Objet 1")] string object1,
-    //     [Option("object2","Objet 2")] string object2)
-    // {
-    //     await ctx.DeferAsync();
-    // }
+    [SlashCommand("provide-relation", "Make bot more intelligent")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
+    public async Task Provide(InteractionContext ctx, [Option("object1", "Objet 1")] string object1,
+        [Option("object2", "Objet 2")] string object2)
+    {
+        await ctx.DeferAsync();
+    }
 
     [SlashCommand("test-user", "Return a question to answer")]
+    [SlashRequirePermissions(DSharpPlus.Permissions.Administrator)]
     public async Task TestUser(InteractionContext ctx)
     {
         await ctx.DeferAsync();
