@@ -1,4 +1,5 @@
 ﻿using BotJDM.Database.Entities;
+using BotJDM.Utils.TrustFactor;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,20 @@ namespace BotJDM.Database.Services
                 _db.Relations.Add(relation);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _db.Relations.CountAsync();
+        }
+
+        public async Task<List<RelationEntity>> GetFirstRelationsAsync(int amount)
+        {
+            return await _db.Relations
+                .OrderBy(r => r.Id)
+                .Where(r => r.Probability >= TrustFactorManager.threshold)
+                .Take(amount)
+                .ToListAsync();
         }
     }
 }
