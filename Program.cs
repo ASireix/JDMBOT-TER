@@ -1,5 +1,7 @@
 using BotJDM.Commands;
 using BotJDM.Config;
+using BotJDM.Database.Services;
+using BotJDM.Database;
 using BotJDM.SlashCommands;
 using BotJDM.SlashCommands.Tests;
 using DSharpPlus;
@@ -8,6 +10,8 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BotJDM
 {
@@ -17,10 +21,20 @@ namespace BotJDM
         public static CommandsNextExtension Commands { get; private set; }
         static async Task Main(string[] args)
         {
+            var services = new ServiceCollection();
+
+            services.AddDbContext<BotDBContext>(options =>
+            options.UseSqlServer("Server=tcp:botterserver.database.windows.net,1433;Initial Catalog=BotTerDb;Persist Security Info=False;User ID=sqladmin;Password=K6Lsg4GGRsC5;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+
+            services.AddScoped<UserService>();
+            services.AddScoped<RelationService>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
             var botConfig = new BotConfig();
             await botConfig.ReadJSON();
 
-            await MySqlDatabaseHelper.InitializeDatabase();
+            //await MySqlDatabaseHelper.InitializeDatabase();
 
             var config = new DiscordConfiguration()
             {
@@ -46,7 +60,10 @@ namespace BotJDM
                 EnableDms = true,
                 EnableDefaultHelp = false
             };
-            var slashCommandsConfig = Client.UseSlashCommands();
+            var slashCommandsConfig = Client.UseSlashCommands(new SlashCommandsConfiguration
+            {
+                Services = serviceProvider
+            });
 
             try
             {
@@ -56,6 +73,7 @@ namespace BotJDM
                 slashCommandsConfig.RegisterCommands<SlashCommandAsk>();
                 slashCommandsConfig.RegisterCommands<SlashCommandProvide>();
                 slashCommandsConfig.RegisterCommands<SlashCommandRate>();
+                slashCommandsConfig.RegisterCommands<SlashCommandInfo>();
             }
             catch (Exception ex) { }
             
