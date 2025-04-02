@@ -28,6 +28,7 @@ namespace BotJDM
 
             services.AddScoped<UserService>();
             services.AddScoped<RelationService>();
+            services.AddScoped<NodeService>();
 
             var serviceProvider = services.BuildServiceProvider();
 

@@ -185,7 +185,8 @@ public class JDMApiHttpClient
         string[]? relationFields = null,
         string[]? nodeFields = null,
         int? limit = null,
-        bool? withoutNodes = null)
+        bool? withoutNodes = null,
+        int? transitivityDepth = 1)
     {
         #region Query
         var query = HttpUtility.ParseQueryString(string.Empty);
@@ -226,12 +227,24 @@ public class JDMApiHttpClient
 
             return relationRet;
         }
-        else
+
+        if (transitivityDepth > 0)
         {
-            Console.WriteLine("Incorrect request : ");
-            response.WriteRequestToConsole();
-            return null;
+            RelationRet ret = await GetRelationsFrom(node1Name, typesIds: typesIds);
+            foreach(Node node in ret.nodes)
+            {
+                RelationRet res = await GetRelationsFromTo(node.name,node2Name, typesIds: typesIds, transitivityDepth: transitivityDepth-1);
+                bool valid = res != null;
+                if (valid)
+                {
+                    return res;
+                }
+            }
         }
+
+        Console.WriteLine("Incorrect request : ");
+        response.WriteRequestToConsole();
+        return null;
     }
     public static async Task<RelationRet?> GetRelationsTo(string node2Name, int[]? typesIds = null,
         int[]? notTypesIds = null,

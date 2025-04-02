@@ -65,5 +65,47 @@ namespace BotJDM.Database.Services
                 .Take(amount)
                 .ToListAsync();
         }
+
+        public async Task<List<RelationEntity>> GetRelationsFromAsync(int nodeId)
+        {
+            return await _db.Relations
+                .Where(r => r.Node1 == nodeId)
+                .ToListAsync();
+        }
+
+        public async Task<bool> ExistsTransitiveRelationAsync(int startNodeId, int endNodeId, int relationType, int maxDepth = 3)
+        {
+            var visited = new HashSet<int>();
+            var toVisit = new Queue<(int nodeId, int depth)>();
+            toVisit.Enqueue((startNodeId, 0));
+
+            while (toVisit.Count > 0)
+            {
+                var (currentNode, depth) = toVisit.Dequeue();
+
+                if (depth > maxDepth)
+                    continue;
+
+                if (visited.Contains(currentNode))
+                    continue;
+
+                visited.Add(currentNode);
+
+                var directRelations = await _db.Relations
+                    .Where(r => r.Node1 == currentNode && r.Type == relationType)
+                    .ToListAsync();
+
+                foreach (var rel in directRelations)
+                {
+                    if (rel.Node2 == endNodeId)
+                        return true;
+
+                    toVisit.Enqueue((rel.Node2, depth + 1));
+                }
+            }
+
+            return false;
+        }
+
     }
 }
