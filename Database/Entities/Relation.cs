@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotJDM.Database.Models
+namespace BotJDM.Database.Entities
 {
     public class Relation
     {

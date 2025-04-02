@@ -53,7 +53,9 @@ namespace BotJDM
                 slashCommandsConfig.RegisterCommands<SlashCommandsAPI>();
                 slashCommandsConfig.RegisterCommands<SlashCommandsBasicConv>();
                 slashCommandsConfig.RegisterCommands<SlashConversationCommands>();
-                slashCommandsConfig.RegisterCommands<SlashCommandsMain>();
+                slashCommandsConfig.RegisterCommands<SlashCommandAsk>();
+                slashCommandsConfig.RegisterCommands<SlashCommandProvide>();
+                slashCommandsConfig.RegisterCommands<SlashCommandRate>();
             }
             catch (Exception ex) { }
             

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BotJDM.Database.Models
+namespace BotJDM.Database.Entities
 {
     public class User
     {

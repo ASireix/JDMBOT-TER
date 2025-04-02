@@ -5,8 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BotJDM.Database.Entities;
 
-namespace BotJDM.Database.Models
+namespace BotJDM.Database.Entities
 {
     public class Conversation
     {
