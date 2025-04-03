@@ -26,6 +26,8 @@ namespace BotJDM.Database.Entities
 
         public int? InfoId { get; set; }
 
+       
+
         public DateTime CreationDate { get; set; }
 
         public DateTime TouchDate { get; set; }

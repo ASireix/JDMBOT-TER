@@ -315,5 +315,15 @@ public class JDMApiHttpClient
             return null;
         }
     }
+    //new
+    public static async Task<string?> GetRelationNameFromId(int relationId)
+    {
+        var allRelations = await GetRelationTypes();
+        if (allRelations == null) return null;
+
+        var match = allRelations.FirstOrDefault(r => r.id == relationId);
+        return match?.name;
+    }
+
 
 }

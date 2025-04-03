@@ -1,6 +1,7 @@
 ﻿using BotJDM.Database.Entities;
 using BotJDM.Utils.TrustFactor;
 using Microsoft.EntityFrameworkCore;
+using BotJDM.APIRequest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,10 @@ namespace BotJDM.Database.Services
                 .FirstOrDefaultAsync(r => r.Node1 == node1 && r.Node2 == node2 && r.Type == type);
 
             return relation?.Probability;
+        }
+        public async Task<string?> GetRelationNameByIdAsync(int typeId)
+        {
+            return await JDMApiHttpClient.GetRelationNameFromId(typeId); 
         }
 
         public async Task SetProbabilityAsync(int node1, int node2, int type, int probability)
@@ -72,6 +77,12 @@ namespace BotJDM.Database.Services
                 .Where(r => r.Node1 == nodeId)
                 .ToListAsync();
         }
+
+        public async Task<List<RelationEntity>> GetRelationsToAsync(int nodeId)
+        {
+            return await _db.Relations.Where(r => r.Node2 == nodeId).ToListAsync();
+        }
+
 
         public async Task<bool> ExistsTransitiveRelationAsync(int startNodeId, int endNodeId, int relationType, int maxDepth = 3)
         {
