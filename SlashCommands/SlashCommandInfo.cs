@@ -1,4 +1,6 @@
-﻿using BotJDM.Database;
+﻿using BotJDM.APIRequest;
+using BotJDM.Database;
+using BotJDM.Database.Entities;
 using BotJDM.Database.Services;
 using BotJDM.Utils;
 using DSharpPlus.Entities;
@@ -15,9 +17,11 @@ namespace BotJDM.SlashCommands
     {
         private readonly UserService _userService;
         private readonly RelationService _relationService;
+        private readonly NodeService _nodeService;
 
-        public SlashCommandInfo(UserService userService, RelationService relationService)
+        public SlashCommandInfo(UserService userService, RelationService relationService,NodeService nodeService)
         {
+            _nodeService = nodeService;
             _userService = userService;
             _relationService = relationService;
         }
@@ -38,15 +42,19 @@ namespace BotJDM.SlashCommands
             var relations = await _relationService.GetFirstRelationsAsync(5);
             var relationCount = await _relationService.CountAsync();
             embed.Title = "Information";
+            int amount = relationCount > 5 ? 5 : relationCount;
             var sb = new StringBuilder($"Salut {ctx.User.Username} ! \n" +
                 $"Ton Trust Factor est de {trust}.\n" +
                 $"Depuis ma création, {relationCount} nouvelles relations ont été trouvé.\n" +
-                $"Voici les 5 premières : ");
+                $"Voici les {amount} premières : \n");
             if (relationCount > 0)
             {
-                foreach (var r in relations)
+                foreach (var r in relations.Take(5))
                 {
-                    sb.AppendLine($"• Node1: {r.Node1}, Node2: {r.Node2}, Type: {r.Type}, Proba: {r.Probability}");
+                    NodeEntity n1 = await _nodeService.GetNodeByIdAsync(r.Node1);
+                    NodeEntity n2 = await _nodeService.GetNodeByIdAsync(r.Node2);
+                    string relType = await JDMApiHttpClient.GetRelationNameFromId(r.Type);
+                    sb.AppendLine($"• Node1: {n1.Name}, Node2: {n2.Name}, Type: {relType}, Proba: {r.Probability}");
                 }
             }
             embed.Description = sb.ToString();
