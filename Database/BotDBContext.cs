@@ -1,10 +1,5 @@
 ﻿using BotJDM.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BotJDM.Database
 {
@@ -24,7 +19,6 @@ namespace BotJDM.Database
             modelBuilder.Entity<RelationEntity>().ToTable("Relations");
             modelBuilder.Entity<UserEntity>().ToTable("Users");
 
-            // TrustFactor entre -100 et 100
             modelBuilder.Entity<UserEntity>()
                 .Property(u => u.TrustFactor)
                 .HasDefaultValue(0);
@@ -34,7 +28,12 @@ namespace BotJDM.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:botterserver.database.windows.net,1433;Initial Catalog=BotTerDb;Persist Security Info=False;User ID=sqladmin;Password=K6Lsg4GGRsC5;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                var projectRoot = AppContext.BaseDirectory.Contains("bin")
+                ? Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\.."))
+                : AppContext.BaseDirectory;
+
+                var dbPath = Path.Combine(projectRoot, "botdata.db");
+                optionsBuilder.UseSqlite($"Data Source={dbPath}");
             }
         }
     }

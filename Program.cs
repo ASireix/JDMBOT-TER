@@ -1,4 +1,4 @@
-using BotJDM.Commands;
+﻿using BotJDM.Commands;
 using BotJDM.Config;
 using BotJDM.Database.Services;
 using BotJDM.Database;
@@ -21,10 +21,16 @@ namespace BotJDM
         public static CommandsNextExtension Commands { get; private set; }
         static async Task Main(string[] args)
         {
+            var projectRoot = AppContext.BaseDirectory.Contains("bin")
+            ? Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\.."))
+            : AppContext.BaseDirectory;
+
+            var dbPath = Path.Combine(projectRoot, "botdata.db");
+
             var services = new ServiceCollection();
 
             services.AddDbContext<BotDBContext>(options =>
-            options.UseSqlServer("Server=tcp:botterserver.database.windows.net,1433;Initial Catalog=BotTerDb;Persist Security Info=False;User ID=sqladmin;Password=K6Lsg4GGRsC5;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+            options.UseSqlite($"Data Source={dbPath}"));
 
             services.AddScoped<UserService>();
             services.AddScoped<RelationService>();
@@ -75,6 +81,7 @@ namespace BotJDM
                 slashCommandsConfig.RegisterCommands<SlashCommandProvide>();
                 slashCommandsConfig.RegisterCommands<SlashCommandRate>();
                 slashCommandsConfig.RegisterCommands<SlashCommandInfo>();
+                slashCommandsConfig.RegisterCommands<SlashCommandAdventure>();
             }
             catch (Exception ex) { }
             

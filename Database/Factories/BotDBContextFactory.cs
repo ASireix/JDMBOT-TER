@@ -8,7 +8,12 @@ namespace BotJDM.Database
         public BotDBContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<BotDBContext>();
-            optionsBuilder.UseSqlServer("Server=tcp:botterserver.database.windows.net,1433;Initial Catalog=BotTerDb;Persist Security Info=False;User ID=sqladmin;Password=K6Lsg4GGRsC5;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            var projectRoot = AppContext.BaseDirectory.Contains("bin")
+            ? Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\.."))
+            : AppContext.BaseDirectory;
+
+            var dbPath = Path.Combine(projectRoot, "botdata.db");
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
 
             return new BotDBContext(optionsBuilder.Options);
         }
