@@ -13,7 +13,7 @@ namespace BotJDM.Database.Services
     public class RelationService
     {
         private readonly BotDBContext _db;
-        private readonly int probaThreshold = 50;
+        private readonly int _probaThreshold = 80;
 
         public RelationService(BotDBContext db)
         {
@@ -73,7 +73,7 @@ namespace BotJDM.Database.Services
         
         public async Task<RelationEntity?> GetRandomRelationAsync(Random rng)
         {
-            int totalCount = await _db.Relations.CountAsync(r => r.Probability >= probaThreshold);
+            int totalCount = await _db.Relations.CountAsync(r => r.Probability >= _probaThreshold);
 
             if (totalCount == 0)
                 return null;
@@ -81,7 +81,7 @@ namespace BotJDM.Database.Services
             int skip = rng.Next(totalCount); // Choisit un index aléatoire à ignorer
 
             return await _db.Relations
-                .Where(r => r.Probability >= probaThreshold)
+                .Where(r => r.Probability >= _probaThreshold)
                 .Skip(skip)
                 .Take(1)
                 .FirstOrDefaultAsync();
@@ -101,7 +101,7 @@ namespace BotJDM.Database.Services
         {
             return await _db.Relations
                 .OrderBy(r => r.Id)
-                .Where(r => r.Probability >= probaThreshold)
+                .Where(r => r.Probability >= _probaThreshold)
                 .Take(amount)
                 .ToListAsync();
         }
@@ -139,7 +139,7 @@ namespace BotJDM.Database.Services
 
                 var directRelations = await _db.Relations
                     .Where(r => r.Node1 == currentNode && r.Type == relationType 
-                                                       && r.Probability >= (minProba < 0 ? probaThreshold : minProba))
+                                                       && r.Probability >= (minProba < 0 ? _probaThreshold : minProba))
                     .ToListAsync();
 
                 foreach (var rel in directRelations)
@@ -166,7 +166,7 @@ namespace BotJDM.Database.Services
                 r.Node1 == node1.Id &&
                 r.Node2 == node2.Id &&
                 r.Type == relationTypeId &&
-                r.Probability >= (minProba < 0 ? probaThreshold : minProba));
+                r.Probability >= (minProba < 0 ? _probaThreshold : minProba));
         }
 
         public async Task<RelationEntity?> CheckRelationOrTransitiveAsync(string nodeName1, string nodeName2, int relationTypeId, int maxDepth = 3, int minProba = -1)
