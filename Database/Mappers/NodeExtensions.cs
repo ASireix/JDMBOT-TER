@@ -22,7 +22,8 @@ namespace BotJDM.Database.Mappers
                 Level = node.level,
                 InfoId = node.infoId,
                 CreationDate = node.creationDate,
-                TouchDate = node.touchDate
+                TouchDate = node.touchDate,
+                New = false
             };
         }
     }

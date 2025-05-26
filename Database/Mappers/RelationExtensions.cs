@@ -27,5 +27,22 @@ namespace BotJDM.Database.Mappers
                 Probability = probability
             };
         }
+
+        public static Relation ToRelation(this RelationEntity entity)
+        {
+            return new Relation
+            {
+                id = entity.Id,
+                node1 = entity.Node1,
+                node2 = entity.Node2,
+                type = entity.Type,
+                w = entity.W,
+                c = entity.C,
+                infoId = entity.InfoId,
+                creationDate = entity.CreationDate,
+                touchDate = entity.TouchDate,
+                nw = entity.Nw
+            };
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BotJDM.Utils.TrustFactor;
 
 namespace BotJDM.Database.Services
 {
@@ -17,16 +18,17 @@ namespace BotJDM.Database.Services
             _db = db;
         }
 
-        public async Task<bool> UserExistsAsync(ulong discordId)
+        public async Task<UserEntity?> GetUser(ulong discordId)
         {
-            return await _db.Users.AnyAsync(u => u.DiscordUserId == discordId);
+            return await _db.Users.FirstOrDefaultAsync(u => u.DiscordUserId == discordId);
         }
 
-        public async Task AddUserAsync(ulong discordId, string username)
+        public async Task<UserEntity> AddUserAsync(ulong discordId, string username)
         {
-            if (!await UserExistsAsync(discordId))
+            var user = await GetUser(discordId);
+            if (user == null)
             {
-                var user = new UserEntity
+                user = new UserEntity
                 {
                     DiscordUserId = discordId,
                     Username = username,
@@ -36,19 +38,18 @@ namespace BotJDM.Database.Services
                 _db.Users.Add(user);
                 await _db.SaveChangesAsync();
             }
+
+            return user;
         }
 
-        public async Task UpdateTrustFactorAsync(ulong discordId, int newTrust)
+        public async Task UpdateTrustFactorAsync(ulong discordId, float newTrust)
         {
-            var user = await _db.Users.FindAsync(discordId);
-            if (user is not null)
-            {
-                user.TrustFactor = Math.Clamp(newTrust, -100, 100);
-                await _db.SaveChangesAsync();
-            }
+            var user = await AddUserAsync(discordId, "");
+            user.TrustFactor = Math.Clamp(newTrust, TrustFactorManager.minTrust, TrustFactorManager.maxTrust);
+            await _db.SaveChangesAsync();
         }
 
-        public async Task<int?> GetTrustFactorAsync(ulong discordId)
+        public async Task<float?> GetTrustFactorAsync(ulong discordId)
         {
             var user = await _db.Users.FindAsync(discordId);
             return user?.TrustFactor;

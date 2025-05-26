@@ -14,11 +14,11 @@ namespace BotJDM.SlashCommands
 {
     public class SlashCommandAsk : ApplicationCommandModule
     {
-        private readonly NodeService _nodeService;
+        private readonly RelationService _relationService;
 
-        public SlashCommandAsk(NodeService nodeService)
+        public SlashCommandAsk(RelationService relationService)
         {
-            _nodeService = nodeService;
+            _relationService = relationService;
         }
 
         [SlashCommand("q-demande", "Demande au bot si la relation 'relation' existe entre objet1 et objet2")]
@@ -29,10 +29,11 @@ namespace BotJDM.SlashCommands
             [Option("object2", "Objet 2")] string object2)
         {
             await ctx.DeferAsync();
-
+            
             var embed = new DiscordEmbedBuilder();
 
             var relationId = await JDMApiHttpClient.GetRelationIdFromName(relation);
+            
             if (relationId == -1)
             {
                 embed.Color = DiscordColor.Red;
@@ -41,25 +42,41 @@ namespace BotJDM.SlashCommands
             }
             else
             {
-                var relationReferences = await JDMApiHttpClient.GetRelationsFromTo(object1, object2, [relationId]);
-
-                if (relationReferences?.relations.Count > 0)
+                var newRel = await JDMHelper.FindRelationFromTo(object1, object2, relation);
+                if (newRel != null)
                 {
+                    bool foundInDb = newRel.Value.Item3;
                     embed.Color = DiscordColor.Green;
-                    embed.Title = "Réponse API JDM";
+                    embed.Title = foundInDb ? "Réponse Bd" : "Réponse API JDM";
                     embed.Description = $"La relation {relation} existe entre {object1} et {object2}.";
                 }
                 else
                 {
-                    bool foundInDb = await _nodeService.CheckRelationOrTransitiveAsync(object1, object2, relationId);
-
-                    embed.Color = foundInDb ? DiscordColor.Orange : DiscordColor.Red;
-                    embed.Title = "Réponse Base Locale";
-
-                    embed.Description = foundInDb
-                        ? $"Relation {relation} trouvée en local entre **{object1}** et **{object2}**."
-                        : $"Aucune relation {relation} trouvée entre **{object1}** et **{object2}**.";
+                    embed.Color = DiscordColor.Red;
+                    embed.Title = "Erreur";
+                    embed.Description = "Relation inconnue.";
                 }
+                
+                
+                // var relationReferences = await JDMApiHttpClient.GetRelationsFromTo(object1, object2, [relationId]);
+                //
+                // if (relationReferences?.relations.Count > 0)
+                // {
+                //     embed.Color = DiscordColor.Green;
+                //     embed.Title = "Réponse API JDM";
+                //     embed.Description = $"La relation {relation} existe entre {object1} et {object2}.";
+                // }
+                // else
+                // {
+                //     bool foundInDb = await _relationService.CheckRelationOrTransitiveAsync(object1, object2, relationId) != null;
+                //
+                //     embed.Color = foundInDb ? DiscordColor.Orange : DiscordColor.Red;
+                //     embed.Title = "Réponse Base Locale";
+                //
+                //     embed.Description = foundInDb
+                //         ? $"Relation {relation} trouvée en local entre **{object1}** et **{object2}**."
+                //         : $"Aucune relation {relation} trouvée entre **{object1}** et **{object2}**.";
+                // }
             }
 
             await ctx.EditResponseAsync(new DiscordWebhookBuilder().AddEmbed(embed));

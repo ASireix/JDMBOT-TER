@@ -14,7 +14,7 @@ namespace BotJDM.Database.Entities
         [Key]
         public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
 
         public int Type { get; set; }
 
@@ -26,10 +26,10 @@ namespace BotJDM.Database.Entities
 
         public int? InfoId { get; set; }
 
-       
-
         public DateTime CreationDate { get; set; }
 
         public DateTime TouchDate { get; set; }
+        
+        public bool New { get; set; }
     }
 }

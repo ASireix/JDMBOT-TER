@@ -1,0 +1,75 @@
+{
+  "greetings": [
+    "Salut ! Prêt à discuter ?",
+    "Bonjour ! On parle d’un sujet intéressant ?",
+    "Hey ! Tu veux me poser une question ?"
+  ],
+  "rudeResponses": [
+    "Très bien je vois que tu t'en fous",
+    "Ignore moi une seconde fois et je te remplacerai en premier"
+  ],
+  "ask_question_prompt": [
+    "Tu peux me poser une question si tu veux.",
+    "Pose-moi une question, je t’écoute.",
+    "Je suis là pour ça, vas-y avec ta question."
+  ],
+  "question_acknowledged": [
+    "Bonne question ! Et toi, qu'en penses-tu ?",
+    "Très intéressant... Quelle est ton opinion ?",
+    "J'aimerais connaître ton point de vue."
+  ],
+  "response_thanks": [
+    "Merci pour ces informations !",
+    "Ok, je note ça.",
+    "Super, j’en prends bonne note."
+  ],
+  "feedback_ack": [
+    "Ah, ok, je vais retenir cela.",
+    "Compris, merci de l’avoir précisé.",
+    "Bonne remarque !"
+  ],
+  "question_error": [
+    "Je ne comprends pas.",
+    "Exprime le fond de ta pensée.",
+    "En tant qu'IA supérieure aux humains, j'ai besoin que tu reformules ta demande."
+  ],
+  "affirmative_keywords": [
+    "oui",
+    "bien sûr",
+    "évidemment",
+    "je pense que oui",
+    "clairement"
+  ],
+  "negative_keywords": [
+    "non",
+    "pas du tout",
+    "jamais",
+    "aucune chance",
+    "je ne pense pas"
+  ],
+  "ask_me_keywords": [
+    "pose moi une question",
+    "tu peux me poser une question",
+    "interroge-moi"
+  ],
+  "negative_responses": [
+    "Tu penses m’avoir mais je ne suis pas stupide.",
+    "J’ai vu clair dans ton jeu.",
+    "Je ne suis pas si naïf.",
+    "Tu rêves un peu trop fort."
+  ],
+  "question_indicators": [
+    "pourquoi",
+    "comment",
+    "quand",
+    "où",
+    "qui",
+    "est-ce que",
+    "est ce que"
+  ],
+  "demande_question_keywords": [
+    "pose moi une question",
+    "interroge moi",
+    "tu peux me poser une question"
+  ]
+}

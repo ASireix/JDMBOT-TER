@@ -1,9 +1,12 @@
-﻿using BotJDM.Commands;
+﻿using System.Text.Json;
+using BotJDM.APIRequest;
+using BotJDM.Commands;
 using BotJDM.Config;
 using BotJDM.Database.Services;
 using BotJDM.Database;
 using BotJDM.SlashCommands;
 using BotJDM.SlashCommands.Tests;
+using BotJDM.Utils;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
@@ -21,11 +24,11 @@ namespace BotJDM
         public static CommandsNextExtension Commands { get; private set; }
         static async Task Main(string[] args)
         {
-            var projectRoot = AppContext.BaseDirectory.Contains("bin")
-            ? Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\.."))
-            : AppContext.BaseDirectory;
+            var projectRoot = AppContext.BaseDirectory;
 
             var dbPath = Path.Combine(projectRoot, "botdata.db");
+            Console.WriteLine($"➡️ Chemin de la base SQLite utilisé : {dbPath}");
+            Console.WriteLine($"➡️ Fichier existe ? {File.Exists(dbPath)}");
 
             var services = new ServiceCollection();
 
@@ -40,6 +43,13 @@ namespace BotJDM
 
             var botConfig = new BotConfig();
             await botConfig.ReadJSON();
+
+            var cachePath = Path.Combine(projectRoot, "cache.json");
+            var relationsTypePath = Path.Combine(projectRoot, "relationsTypes.json");
+            await JDMHelper.Initialize(cachePath,200,relationsTypePath,
+                serviceProvider.GetRequiredService<RelationService>(),
+                serviceProvider.GetRequiredService<NodeService>(),
+                serviceProvider.GetRequiredService<UserService>());
 
             //await MySqlDatabaseHelper.InitializeDatabase();
 
@@ -74,9 +84,6 @@ namespace BotJDM
 
             try
             {
-                slashCommandsConfig.RegisterCommands<SlashCommandsAPI>();
-                slashCommandsConfig.RegisterCommands<SlashCommandsBasicConv>();
-                slashCommandsConfig.RegisterCommands<SlashConversationCommands>();
                 slashCommandsConfig.RegisterCommands<SlashCommandAsk>();
                 slashCommandsConfig.RegisterCommands<SlashCommandProvide>();
                 slashCommandsConfig.RegisterCommands<SlashCommandRate>();
@@ -87,12 +94,11 @@ namespace BotJDM
             
 
             Commands = Client.UseCommandsNext(commandsConfig);
-
-            Commands.RegisterCommands<Basic>();
-            Commands.RegisterCommands<ConversationCommands>();
-
-            await ConversationCommands.InitializeKnowledgeBase();
-            await SlashConversationCommands.InitializeKnowledgeBase();
+            
+            Client.MessageCreated += async (s, e) =>
+            {
+                await SlashCommandAdventure.HandleMessageAsync(e.Message);
+            };
             
             Console.WriteLine("============================== \n" +
                               "NET 9.0 C# Discord Bot \n" +

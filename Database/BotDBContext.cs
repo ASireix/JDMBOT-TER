@@ -28,9 +28,7 @@ namespace BotJDM.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var projectRoot = AppContext.BaseDirectory.Contains("bin")
-                ? Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\.."))
-                : AppContext.BaseDirectory;
+                var projectRoot = AppContext.BaseDirectory;
 
                 var dbPath = Path.Combine(projectRoot, "botdata.db");
                 optionsBuilder.UseSqlite($"Data Source={dbPath}");

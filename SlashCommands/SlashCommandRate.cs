@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using BotJDM.APIRequest.Models;
+using BotJDM.Utils.TrustFactor;
 
 namespace BotJDM.SlashCommands
 {
@@ -204,8 +205,7 @@ namespace BotJDM.SlashCommands
 
             await _userService.AddUserAsync(ctx.User.Id, ctx.User.Username);
             var trust = await _userService.GetTrustFactorAsync(ctx.User.Id) ?? 0;
-            int delta = isCorrect ? CalculateTrustGain(trust) : -CalculateTrustPenalty(trust);
-            int newTrust = Math.Clamp(trust + delta, -100, 100);
+            float newTrust = TrustFactorManager.UpdateTrustFactor(trust, isCorrect);
             await _userService.UpdateTrustFactorAsync(ctx.User.Id, newTrust);
 
             var feedback = new DiscordEmbedBuilder

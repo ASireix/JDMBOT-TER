@@ -39,6 +39,9 @@ namespace BotJDM.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("New")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("TouchDate")
                         .HasColumnType("TEXT");
 
@@ -102,10 +105,10 @@ namespace BotJDM.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TrustFactor")
+                    b.Property<float>("TrustFactor")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
+                        .HasColumnType("REAL")
+                        .HasDefaultValue(0f);
 
                     b.Property<string>("Username")
                         .IsRequired()
