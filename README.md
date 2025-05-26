@@ -68,5 +68,5 @@ exécuter la commande `dotnet restore`dans le répertoire racine du projet
 ## Liens utiles  
 - [RezoJDM : Description générale](http://www.jeuxdemots.org/jdm-about.php)  
 - [API](https://jdm-api.demo.lirmm.fr/)
-- [Bot discord : Lien d'invitation]([https://jdm-api.demo.lirmm.fr/](https://discord.com/oauth2/authorize?client_id=1332339024651616298&permissions=8&integration_type=0&scope=bot+applications.commands))  
+- [Bot discord : Lien d'invitation](https://discord.com/oauth2/authorize?client_id=1332339024651616298&permissions=8&integration_type=0&scope=bot+applications.commands)  
 
