@@ -60,12 +60,13 @@ exécuter la commande `dotnet restore`dans le répertoire racine du projet
 - aller sur Discord  Developper Portal
 - cliquer sur "new Application"
 - Aller dans l'onglet Bot -> Add Bot
-- copier le token du bot et coller dans 'Config/config.json' 
+- copier le token du bot et coller dans 'bin/Debug/net9.0/config.json' 
 
 ### 4. Lancer le bot
 - exécuter la commande `dotnet run`
 
 ## Liens utiles  
 - [RezoJDM : Description générale](http://www.jeuxdemots.org/jdm-about.php)  
-- [API](https://jdm-api.demo.lirmm.fr/)  
+- [API](https://jdm-api.demo.lirmm.fr/)
+- [Bot discord : Lien d'invitation]([https://jdm-api.demo.lirmm.fr/](https://discord.com/oauth2/authorize?client_id=1332339024651616298&permissions=8&integration_type=0&scope=bot+applications.commands))  
 
