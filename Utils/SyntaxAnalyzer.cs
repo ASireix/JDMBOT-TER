@@ -9,7 +9,7 @@ public static class SyntaxAnalyzer
     {
         var psi = new ProcessStartInfo
         {
-            FileName = "/home/vixy/RiderProjects/JDMBOT-TER/.venv/bin/python3",
+            FileName = "python3",
             Arguments = "analyze.py",
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
