@@ -158,10 +158,65 @@ public static class JDMHelper
             }
         }
 
-        public static async Task FindBestQuestion()
+        public static async Task FindBestQuestion(ConversationState state, Random rng, float baitProbability, bool inDb = false)
         {
-            
+            if (inDb)
+            {
+                var rel = await _relationService.GetRandomRelationAsync(new Random());
+                var node1 = await _nodeService.GetNodeByIdAsync(rel.Node1);
+                var node2 = await _nodeService.GetNodeByIdAsync(rel.Node2);
+                
+                state.lastRelationAsked = new AskedRelation()
+                {
+                    relation = GetTypeNameFromTypeId(rel.Type),
+                    node1 = node1.Name,
+                    node2 = node2.Name,
+                    isCorrect = true,
+                    isExpectingAnswer = false
+                };
+            }
+            else
+            {
+                var ret = await JDMApiHttpClient.GetRelationsFrom(state.oldTheme);
+                if (ret.relations == null || ret.relations.Count == 0)
+                {
+                    throw new Exception("Aucune relation trouvée pour ce thème.");
+                }
+
+                // Choisir une relation aléatoire
+                var randomIndex = rng.Next(ret.relations.Count);
+                var selectedRelation = ret.relations[randomIndex];
+
+                // Charger tous les types de relations connus
+                var allRelationTypes = LoadRelationTypes().Select(rt => rt.id).ToList();
+
+                // Vérifier si on modifie la relation ou pas
+                bool isCorrect = rng.NextDouble() > baitProbability;
+
+                if (!isCorrect)
+                {
+                    // Liste des types autres que celui d'origine
+                    var alternativeTypes = allRelationTypes.Where(t => t != selectedRelation.type).ToList();
+                    if (alternativeTypes.Count > 0)
+                    {
+                        selectedRelation.type = alternativeTypes[rng.Next(alternativeTypes.Count)];
+                    }
+                }
+                var node = await JDMApiHttpClient.GetNodeById(selectedRelation.node2);
+                
+                state.lastRelationAsked = new AskedRelation()
+                {
+                    relation = GetTypeNameFromTypeId(selectedRelation.type),
+                    node1 = state.oldTheme,
+                    node2 = node.name,
+                    isCorrect = isCorrect,
+                    isExpectingAnswer = true
+                };
+                
+                state.oldTheme = node.name;
+            }
         }
+
 
         private static async Task<(Relation, bool, bool)?> CheckRelationFromBd(string node1, string node2, int typeId, SearchType searchType)
         {
@@ -258,6 +313,14 @@ public static class JDMHelper
             if (relationTypes.Count == 0) return -1;
             int id = relationTypes.FirstOrDefault(r => r.name == typename).id;
             return id;
+        }
+        
+        private static string GetTypeNameFromTypeId(int typeid)
+        {
+            List<RelationType> relationTypes = LoadRelationTypes();
+            if (relationTypes.Count == 0) return "";
+            string n = relationTypes.FirstOrDefault(r => r.id == typeid).name;
+            return n;
         }
         
         private static Queue<CachedRelation> LoadCache()

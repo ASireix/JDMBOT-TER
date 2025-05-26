@@ -72,8 +72,7 @@ namespace BotJDM.SlashCommands
                             await message.RespondAsync(ConversationManager.GetRandomPhrase("question_error"));
                             break;
                         case ResponseType.DemandeQuestion:
-                            //Cherche une question et lui pose
-                            state.conversationStateName = ConversationStateNames.AttenteFeedback;
+                            await RespondToDemande(message, state);
                             break;
                     }
 
@@ -118,8 +117,8 @@ namespace BotJDM.SlashCommands
                             
                             break;
                         case ResponseType.DemandeQuestion:
-                            //Cherche une question et lui pose
-                            state.conversationStateName = ConversationStateNames.AttenteFeedback;
+                            await message.RespondAsync(ConversationManager.GetRandomPhrase("rudeResponses"));
+                            await RespondToDemande(message, state);
                             break;
                     }
                     break;
@@ -162,12 +161,27 @@ namespace BotJDM.SlashCommands
                             }
                             break;
                         case ResponseType.DemandeQuestion:
-                            //Cherche une question et lui pose
-                            state.conversationStateName = ConversationStateNames.AttenteFeedback;
+                            await message.RespondAsync(ConversationManager.GetRandomPhrase("rudeResponses"));
+                            await RespondToDemande(message, state);
                             break;
                     }
                     break;
             }
+        }
+
+        private static async Task RespondToDemande(DiscordMessage message, ConversationState state)
+        {
+            if (_rng.NextDouble() > 0.5)
+            {
+                await JDMHelper.FindBestQuestion(state, _rng, baitProbility, true);
+                state.conversationStateName = ConversationStateNames.AttenteFeedback;
+            }
+            else
+            {
+                await JDMHelper.FindBestQuestion(state, _rng, baitProbility, false);
+                state.conversationStateName = ConversationStateNames.AttenteReponse;
+            }
+            await message.RespondAsync($"Est-ce que {state.lastRelationAsked.Value.node1} {state.lastRelationAsked.Value.relation} {state.lastRelationAsked.Value.node2}");
         }
 
         private static async Task RespondToQuestion(DiscordMessage message, (string subject, string relation, string target)? res, ConversationState state)

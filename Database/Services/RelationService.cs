@@ -70,6 +70,22 @@ namespace BotJDM.Database.Services
             await _db.SaveChangesAsync();
             return entry.Entity;
         }
+        
+        public async Task<RelationEntity?> GetRandomRelationAsync(Random rng)
+        {
+            int totalCount = await _db.Relations.CountAsync(r => r.Probability >= probaThreshold);
+
+            if (totalCount == 0)
+                return null;
+
+            int skip = rng.Next(totalCount); // Choisit un index aléatoire à ignorer
+
+            return await _db.Relations
+                .Where(r => r.Probability >= probaThreshold)
+                .Skip(skip)
+                .Take(1)
+                .FirstOrDefaultAsync();
+        }
 
         public async Task<int> CountAsync()
         {
